@@ -1,12 +1,11 @@
-import { BaseEditor,  Editor, Transforms, Text } from 'slate'
-import { ReactEditor } from 'slate-react'
+import { Editor, Transforms, Text, Node } from 'slate'
+import { CustomEditor as EditorTypes } from "../interfaces";
 
-type EditorTypes = BaseEditor & ReactEditor
 
 export const CustomEditor = {
   isBoldMarkActive(editor: EditorTypes) {
     const [match] = Editor.nodes(editor, {
-      match: (n: Element) => n.bold === true,
+      match: (n: any) => n.bold === true,
       universal: true,
     })
 
@@ -15,7 +14,7 @@ export const CustomEditor = {
 
   isCodeBlockActive(editor: EditorTypes) {
     const [match] = Editor.nodes(editor, {
-      match: n => n.code === true,
+      match: (n: any) => n.code === true,
     })
 
     return !!match
@@ -28,7 +27,7 @@ export const CustomEditor = {
     if (selection) {
       const [match] =  Array.from(Editor.nodes(editor, {
         at: Editor.unhangRange(editor, selection),
-        match: n => n.type === 'bulleted-list',
+        match: (n: any) => n.type === 'bulleted-list',
       }))
 
       isActive = !!match
@@ -42,7 +41,7 @@ export const CustomEditor = {
     Transforms.setNodes(
       editor,
       { bold: isActive ? false : true },
-      { match: n => Text.isText(n), split: true }
+      { match: (n: any) => Text.isText(n), split: true }
     )
   },
 
@@ -51,7 +50,7 @@ export const CustomEditor = {
     Transforms.setNodes(
       editor,
       { code: isActive ? false : true },
-      { match: n => Text.isText(n), split: true }
+      { match: (n: any) => Text.isText(n), split: true }
     )
   },
 
@@ -59,7 +58,7 @@ export const CustomEditor = {
     let isActive = CustomEditor.isBulletList(editor)
 
     Transforms.unwrapNodes(editor, {
-      match: n => n.type === 'bulleted-list',
+      match: (n: any) => n.type === 'bulleted-list',
       split: true,
     })
 

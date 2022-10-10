@@ -1,9 +1,10 @@
 import { CSSProperties, FC, useCallback, useMemo } from 'react'
-import { createEditor, BaseEditor, Descendant,  Node, Transforms, Element as SlateElement, } from 'slate'
+import { createEditor, Descendant,  Node, Transforms, Element as SlateElement, } from 'slate'
 import { Slate, Editable, withReact, ReactEditor, RenderElementProps, RenderLeafProps } from 'slate-react'
 import { withHistory } from 'slate-history'
 import styles from '../../styles/Home.module.css'
 import { CustomEditor } from '../../helpers'
+
 
 const withLayout = (editor: ReactEditor) => {
   const { normalizeNode } = editor
@@ -11,7 +12,7 @@ const withLayout = (editor: ReactEditor) => {
   editor.normalizeNode = ([node, path]) => {
     if (path.length === 0) {
       for (const [child, childPath] of Node.children(editor, path)) {
-        let type: string
+        let type = child.type || 'paragraph'
         const slateIndex = childPath[0]
         const enforceType = (type: string) => {
           if (SlateElement.isElement(child) && child.type !== type) {
@@ -27,7 +28,6 @@ const withLayout = (editor: ReactEditor) => {
             enforceType(type)
             break
           case 1:
-            type = child.type
             if (child.type === 'title') {
               type = 'paragraph'
             }

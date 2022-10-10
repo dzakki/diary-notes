@@ -1,6 +1,6 @@
-import { Element, Note } from '../interfaces';
+import { CustomElement, Note } from '../interfaces';
 
-export const GUIDLINES_NOTE: Element[] = [
+export const GUIDLINES_NOTE: CustomElement[] = [
   {
     "type": "title",
     "children": [
